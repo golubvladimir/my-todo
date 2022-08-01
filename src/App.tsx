@@ -1,11 +1,25 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
+import { Routes, Route } from 'react-router-dom';
+
+import { Navbar } from './components/Navbar';
+import { About } from './pages/About';
+import { List } from './pages/List';
+
 
 function App() {
   return (
-    <div className="App">
-      <Button>Sample Btn</Button>
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route 
+          path='/' element={ <List /> } 
+        />
+        <Route 
+          path='/about' element={ <About /> }
+        />
+      </Routes>
+    </>
+
   );
 }
 
