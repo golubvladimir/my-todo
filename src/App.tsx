@@ -9,7 +9,7 @@ import { List } from './pages/List';
 function App() {
   return (
     <>
-      <Navbar />
+      <Navbar className="mb-3" />
       <Routes>
         <Route 
           path='/' element={ <List /> } 
