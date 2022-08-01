@@ -1,7 +1,7 @@
 import { Navbar as NavbarB, Container, Nav } from "react-bootstrap"
 
 interface NavbarProps {
-  className?: string
+  className?: string;
 }
 
 export function Navbar({ className }: NavbarProps) {
