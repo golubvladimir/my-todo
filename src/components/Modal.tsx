@@ -1,28 +1,40 @@
 import React, { ReactFragment, useState } from "react";
-import { Modal as ModalB, Button, Form, FormControl } from "react-bootstrap"
+import { Modal as ModalB, Button, Form, FormControl, FormControlProps } from "react-bootstrap"
+
+interface IModal {
+  show: boolean
+}
 
 interface IFormAddState {
   title: string;
   description: string;
 }
 
-export function Modal() {
+const startStateForm = {
+  title: '',
+  description: ''
+}
+
+export function Modal({ show }: IModal) {
   const [formAdd, setFormAdd] = useState<IFormAddState>({
-    title: '',
-    description: ''
+    ...startStateForm
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>, fieldName: string) => {
-    event.preventDefault();
-
+  const handleChange = (value: string, fieldName: string) => {
     setFormAdd({
       ...formAdd,
-      [fieldName]: event.target.value
+      [fieldName]: value
     });
   }
 
+  const cleanForm = () => {
+    setFormAdd({
+      ...startStateForm
+    })   
+  }
+
   return (
-    <ModalB>
+    <ModalB show={show} >
       <ModalB.Header>
         Add Task
       </ModalB.Header>
@@ -37,7 +49,7 @@ export function Modal() {
               type="text"
               placeholder="Task Title"
               value={formAdd['title']}
-              onChange={e => handleChange(e, 'title')}
+              onChange={({ target: { value } }) => { handleChange(value, 'title') }}
             />
           </Form.Group>
           <Form.Group>
@@ -48,7 +60,7 @@ export function Modal() {
               type="text"
               placeholder="Task Description"
               value={formAdd['description']}
-              onChange={e => handleChange(e, 'description')}
+              onChange={({ target: { value } }) => { handleChange(value, 'description') }}
             />
           </Form.Group>
 
