@@ -6,7 +6,7 @@ import { Modal } from "../components/Modal";
 import { TasksContext } from "../context/TasksContext";
 
 export function List() {
-  const { tasks } = useContext(TasksContext)
+  const { tasks, addTask } = useContext(TasksContext);
   const [show, setShow] = useState<boolean>(false);
 
   const openModal = () => {
@@ -19,9 +19,9 @@ export function List() {
 
   return (
     <Container>
-      <Button onClick={openModal}>Add Task</Button>
+      <Button className='mb-3' onClick={openModal}>Add Task</Button>
 
-      <Modal show={show} onHide={closeModal}/>
+      <Modal show={show} onHide={closeModal} addTask={addTask}/>
 
       { tasks.map(task => 
         <Task

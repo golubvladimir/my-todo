@@ -5,6 +5,7 @@ interface ITasksContext {
   tasks: ITask[];
   addTask: (task: ITask) => void;
   removeTask: (id: number) => void;
+  completeTask: (id: number) => void;
 };
 
 interface ITasksState {
@@ -14,7 +15,8 @@ interface ITasksState {
 export const TasksContext = createContext<ITasksContext>({
   tasks: [],
   addTask: () => {},
-  removeTask: () => {}
+  removeTask: () => {},
+  completeTask: () => {}
 });
 
 export const TasksState = ({ children }: ITasksState) => {
@@ -33,8 +35,18 @@ export const TasksState = ({ children }: ITasksState) => {
     setTasks(filteredTasks);
   }
 
+  const completeTask = (id: number) => {
+    const tasksCopy = [...tasks];
+
+    const index = tasksCopy.findIndex(task => task.id === id);
+
+    tasksCopy[index].complete = true;
+
+    setTasks(tasksCopy);
+  }
+
   return (
-    <TasksContext.Provider value={{ tasks, addTask, removeTask }}>
+    <TasksContext.Provider value={{ tasks, addTask, removeTask, completeTask }}>
       { children }
     </TasksContext.Provider>
   )

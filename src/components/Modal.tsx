@@ -1,9 +1,14 @@
-import React, { ReactFragment, useState } from "react";
-import { Modal as ModalB, Button, Form, FormControl, FormControlProps } from "react-bootstrap"
+import React, { useState } from "react";
+import { DateTime } from "luxon";
+
+import { Modal as ModalB, Button, Form } from "react-bootstrap"
+import { ITask } from "./Task";
+
 
 interface IModal {
-  show: boolean,
-  onHide: () => void
+  show: boolean;
+  onHide: () => void;
+  addTask: (task: ITask) => void
 }
 
 interface IFormAddState {
@@ -16,7 +21,7 @@ const startStateForm = {
   description: ''
 }
 
-export function Modal({ show, onHide }: IModal) {
+export function Modal({ show, onHide, addTask }: IModal) {
   const [formAdd, setFormAdd] = useState<IFormAddState>({
     ...startStateForm
   });
@@ -34,14 +39,27 @@ export function Modal({ show, onHide }: IModal) {
     })   
   }
 
+  const onSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+  
+    addTask({
+      id: DateTime.now().toMillis(),
+      ...formAdd,
+      complete: false
+    });
+
+    cleanForm();
+    onHide();
+  }
+
   return (
-    <ModalB show={show} onHide={onHide}>
+    <ModalB show={show} onHide={onHide} >
       <ModalB.Header closeButton>
         Add Task
       </ModalB.Header>
 
       <ModalB.Body>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>
               Title
