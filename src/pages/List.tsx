@@ -1,17 +1,27 @@
 import { useContext, useState } from "react";
 import { Container, Button } from "react-bootstrap";
 
-import { Task } from '../components/Task'
+import { Task } from '../components/Task';
+import { Modal } from "../components/Modal";
 import { TasksContext } from "../context/TasksContext";
 
 export function List() {
   const { tasks } = useContext(TasksContext)
   const [show, setShow] = useState<boolean>(false);
 
+  const openModal = () => {
+    setShow(true);
+  };
+
+  const closeModal = () => {
+    setShow(false);
+  };
+
   return (
     <Container>
-      <Button>Add Task</Button>
+      <Button onClick={openModal}>Add Task</Button>
 
+      <Modal show={show} onHide={closeModal}/>
 
       { tasks.map(task => 
         <Task

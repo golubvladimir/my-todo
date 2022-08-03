@@ -2,7 +2,8 @@ import React, { ReactFragment, useState } from "react";
 import { Modal as ModalB, Button, Form, FormControl, FormControlProps } from "react-bootstrap"
 
 interface IModal {
-  show: boolean
+  show: boolean,
+  onHide: () => void
 }
 
 interface IFormAddState {
@@ -15,7 +16,7 @@ const startStateForm = {
   description: ''
 }
 
-export function Modal({ show }: IModal) {
+export function Modal({ show, onHide }: IModal) {
   const [formAdd, setFormAdd] = useState<IFormAddState>({
     ...startStateForm
   });
@@ -34,14 +35,14 @@ export function Modal({ show }: IModal) {
   }
 
   return (
-    <ModalB show={show} >
-      <ModalB.Header>
+    <ModalB show={show} onHide={onHide}>
+      <ModalB.Header closeButton>
         Add Task
       </ModalB.Header>
 
       <ModalB.Body>
         <Form>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>
               Title
             </Form.Label>
@@ -52,7 +53,7 @@ export function Modal({ show }: IModal) {
               onChange={({ target: { value } }) => { handleChange(value, 'title') }}
             />
           </Form.Group>
-          <Form.Group>
+          <Form.Group className="mb-3">
             <Form.Label>
               Description
             </Form.Label>
